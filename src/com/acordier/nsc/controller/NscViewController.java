@@ -9,22 +9,22 @@ import controlP5.ControlListener;
 import controlP5.Group;
 import controlP5.Knob;
 import controlP5.RadioButton;
-import static com.acordier.mnmd.model.NscConstants.FREQ_MAX;
-import static com.acordier.mnmd.model.NscConstants.FREQ_MIN;
-import static com.acordier.mnmd.model.NscConstants.RES_MAX;
-import static com.acordier.mnmd.model.NscConstants.RES_MIN;
-import static com.acordier.mnmd.model.NscConstants.AMP_MIN;
-import static com.acordier.mnmd.model.NscConstants.AMP_MAX;
-import static com.acordier.mnmd.model.NscConstants.ATT_MIN;
-import static com.acordier.mnmd.model.NscConstants.ATT_MAX;
-import static com.acordier.mnmd.model.NscConstants.DEC_MIN;
-import static com.acordier.mnmd.model.NscConstants.DEC_MAX;
-import static com.acordier.mnmd.model.NscConstants.SUS_MIN;
-import static com.acordier.mnmd.model.NscConstants.SUS_MAX;
-import static com.acordier.mnmd.model.NscConstants.REL_MIN;
-import static com.acordier.mnmd.model.NscConstants.REL_MAX;
-import static com.acordier.mnmd.model.NscConstants.GAIN_MIN;
-import static com.acordier.mnmd.model.NscConstants.GAIN_MAX;
+import static com.acordier.nsc.model.NscConstants.AMP_MAX;
+import static com.acordier.nsc.model.NscConstants.AMP_MIN;
+import static com.acordier.nsc.model.NscConstants.ATT_MAX;
+import static com.acordier.nsc.model.NscConstants.ATT_MIN;
+import static com.acordier.nsc.model.NscConstants.DEC_MAX;
+import static com.acordier.nsc.model.NscConstants.DEC_MIN;
+import static com.acordier.nsc.model.NscConstants.FREQ_MAX;
+import static com.acordier.nsc.model.NscConstants.FREQ_MIN;
+import static com.acordier.nsc.model.NscConstants.GAIN_MAX;
+import static com.acordier.nsc.model.NscConstants.GAIN_MIN;
+import static com.acordier.nsc.model.NscConstants.REL_MAX;
+import static com.acordier.nsc.model.NscConstants.REL_MIN;
+import static com.acordier.nsc.model.NscConstants.RES_MAX;
+import static com.acordier.nsc.model.NscConstants.RES_MIN;
+import static com.acordier.nsc.model.NscConstants.SUS_MAX;
+import static com.acordier.nsc.model.NscConstants.SUS_MIN;
 
 public class NscViewController {
 

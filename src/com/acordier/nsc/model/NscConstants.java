@@ -1,4 +1,4 @@
-package com.acordier.mnmd.model;
+package com.acordier.nsc.model;
 
 import ddf.minim.ugens.Waveform;
 import ddf.minim.ugens.Waves;

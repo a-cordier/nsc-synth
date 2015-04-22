@@ -1,6 +1,6 @@
 package com.acordier.nsc.controller;
 
-import static com.acordier.mnmd.model.NscConstants.WAVE_FORMS;
+import static com.acordier.nsc.model.NscConstants.WAVE_FORMS;
 
 import com.acordier.nsc.core.Nsc;
 
