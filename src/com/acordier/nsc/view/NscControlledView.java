@@ -24,8 +24,11 @@ public class NscControlledView extends PApplet {
 	private final int SK_WIDTH = 400, SK_HEIGHT = 300;
 	ControlP5 cP5;
 	Knob filterKnob, resKnob;
+	Knob lfoFreqKnob, lfoAmpKnob;
 	RadioButton vco1Wave, vco2Wave;
 	Knob gainKnob;
+	Knob delayFbKnob, delayTimeKnob;
+	Knob bcResKnob, bcRateKnob;
 	Slider ampSlider, attackSlider, decaySlider, sustainSlider, releaseSlider;
 	Canvas adsrCanvas;
 	List<CheckBox> stepSequencer;
@@ -45,31 +48,50 @@ public class NscControlledView extends PApplet {
 		
 		viewController = new NscViewController(nsc);
 		/* FITLER KNOB VIEW */
-		filterKnob = new NscKnob.Builder("Filter").setPosition(5, 5).build(cP5);
+		filterKnob = new NscKnob.Builder("Filter").setPosition(5, 5).setRadius(15).build(cP5);
 		viewController.bindFilter(filterKnob);
 		
+		/* FILTER FREQ LFO FREQ KNOB VIEW */
+		lfoFreqKnob = new NscKnob.Builder("LFO Freq.").setPosition(5, 50).setRadius(15).build(cP5);
+		viewController.bindLfoFrequency(lfoFreqKnob);
+		
+		
 		/* RES KNOB VIEW */
-		resKnob  = new NscKnob.Builder("Res.").setPosition(60, 5).build(cP5);
+		resKnob  = new NscKnob.Builder("Res.").setPosition(50, 5).setRadius(15).build(cP5);
 		viewController.bindResonance(resKnob);
 		
+		/* DELAY TIME VIEW */
+		delayTimeKnob = new NscKnob.Builder("Del. Time").setPosition(100, 5).setRadius(15).build(cP5);
+		viewController.bindDelayTime(delayTimeKnob);
+		
+		/* DELAY FEEDBACK VIEW */
+		delayFbKnob = new NscKnob.Builder("Del. FB").setPosition(150, 5).setRadius(15).build(cP5);
+		viewController.bindDelayFeedBack(delayFbKnob);
+		
+		/* DELAY TIME VIEW */
+		bcResKnob = new NscKnob.Builder("Bc Res.").setPosition(100, 50).setRadius(15).build(cP5);
+		viewController.bindBitCrushResolution(bcResKnob);
+		
+		/* BIT CRUSH RESOLUTION VIEW */
+		bcRateKnob = new NscKnob.Builder("Bc Rate. ").setPosition(150, 50).setRadius(15).build(cP5);
+		viewController.bindBitCrushRate(bcRateKnob);
+		
 		/* GAIN ROTARY KNOB VIEW */
-		gainKnob = new NscKnob.Builder("Gain").setPosition(120, 5).build(cP5);
+		gainKnob = new NscKnob.Builder("Gain").setPosition(200, 5).setRadius(15).build(cP5);
 		viewController.bindGain(gainKnob);
 		
 		/* ADSR VIEW */
-		Group adsrWidget = new NscAdsr.Builder("ADSR").build(cP5); 
-		adsrWidget.setPosition(100, height-adsrWidget.getHeight());
+		Group adsrWidget = new NscAdsr.Builder("ADSR").setDimensions(10, 57).setPosition(100,  height-57).build(cP5); 
 		viewController.bindAdsr(adsrWidget);
 		/* ADSR VIEW DONE */
 		
 		/* VCO 1 WAVE SELECTOR VIEW */
-		vco1Wave = new NscWaveSelector.Builder("vco_1").setPosition(0, height - 5 * (10 + 1) - 2).build(cP5);
+		vco1Wave = new NscWaveSelector.Builder("VCO_1").setPosition(0, height - 5 * (10 + 1) - 2).setDimensions(10, 10).build(cP5);
 		viewController.bindWaveSelector(vco1Wave);
 
-		/* VCO 1 WAVE SELECTOR VIEW  DONE */
 		
 		/* VCO 2 WAVE SELECTOR VIEW */
-		vco2Wave = new NscWaveSelector.Builder("vco_2").setPosition(50, height - 5 * (10 + 1) - 2).build(cP5);
+		vco2Wave = new NscWaveSelector.Builder("VCO_2").setPosition(50, height - 5 * (10 + 1) - 2).setDimensions(10, 10).build(cP5);
 		viewController.bindWaveSelector(vco2Wave);
 	
 		/* WAVE VISUALISATION VIEW */

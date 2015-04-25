@@ -1,5 +1,7 @@
 package com.acordier.nsc.core;
 
+import javax.sound.sampled.AudioFormat;
+
 import processing.core.PApplet;
 
 import com.acordier.mnmd.core.MidiInstrument;
@@ -8,6 +10,8 @@ import com.acordier.mnmd.features.AdsrX;
 
 import ddf.minim.AudioOutput;
 import ddf.minim.Minim;
+import ddf.minim.SignalSplitter;
+import ddf.minim.ugens.BitCrush;
 import ddf.minim.ugens.Bypass;
 import ddf.minim.ugens.Damp;
 import ddf.minim.ugens.Delay;
@@ -31,9 +35,9 @@ public class Nsc implements MidiInstrument {
 	Gain vco1Gain, vco2Gain;
 	Oscil lfo;
 	MoogFilter filter;
-	MoogFilter modFilter;
 	Summer sum;
 	MidiReceiver receiver;
+	BitCrush bitCrush;
 	PApplet sketch;
 	AdsrX adsr;
 	Summer adsrSum;
@@ -41,7 +45,9 @@ public class Nsc implements MidiInstrument {
 	Delay delay;
 	Gain globalGain;
 
-
+	SignalSplitter splitter;
+	Summer summer;
+	
 	/* transpose values */
 	int tOsc_1;
 	int tOsc_2;
@@ -54,15 +60,14 @@ public class Nsc implements MidiInstrument {
 		vco1 = new Oscil(440.F, 0.5F, Waves.SQUARE);
 		vco2 = new Oscil(440.F, 0.5F, Waves.TRIANGLE);
 		tOsc_1 = 0;
-		tOsc_2 = -1;
+		tOsc_2 = 1;
 		adsr = new AdsrX(0.75F, 0.00001F, 0.125F, 0.25F, 0.125F);
 		filter = new MoogFilter(1200.F, 0.5F);
-		modFilter = new MoogFilter(200.F, 0);
-		lfo = new Oscil(3.F, 2000.F, Waves.SINE);
 		sum = new Summer();
 		adsrSum = new Summer();
 		minim = new Minim(sketch);
 		out = minim.getLineOut();
+		lfo = new Oscil(0.F, 2200.F, Waves.TRIANGLE);
 		lfo.offset.setLastValue(2000.F); // i don't know what i'm doing here
 		lfo.patch(filter.frequency);
 		//damp = new Damp(0.01F, 0.225F);
@@ -77,11 +82,19 @@ public class Nsc implements MidiInstrument {
 		adsr.patch(adsrSum);
 		adsrSum.patch(filter);
 		//filter.patch(modFilter);
+//		  AudioFormat format = new AudioFormat( 44100, // sample rate
+//                  16,    // sample size in bits
+//                  1,     // channels
+//                  true,  // signed
+//                  true   // bigEndian
+//                );
 		delay = new Delay(0.005F, 0.75F, true, true);
+		bitCrush = new BitCrush(8.F, 2048.F); // 2048 min, 
 		globalGain = new Gain();
 		Bypass<Delay> delayBypass = new Bypass<Delay>(delay);
 		filter.patch(delayBypass);
-		delayBypass.patch(globalGain);
+		delayBypass.patch(bitCrush);
+		bitCrush.patch(globalGain);
 		globalGain.patch(out);
 		//delayBypass.activate();
 		receiver = new MidiReceiver(this);
@@ -179,9 +192,17 @@ public class Nsc implements MidiInstrument {
 	public Gain getGain() {
 		return globalGain;
 	}
-	
-	
-	
 
+	public Delay getDelay() {
+		return delay;
+	}
 
+	public BitCrush getBitCrush() {
+		return bitCrush;
+	}
+
+	public void setBitCrush(BitCrush bitCrush) {
+		this.bitCrush = bitCrush;
+	}
+	
 }

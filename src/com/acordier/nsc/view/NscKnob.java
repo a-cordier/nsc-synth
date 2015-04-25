@@ -13,7 +13,7 @@ public class NscKnob extends Knob {
 		this.setRange(0, 127);
 		this.setViewStyle(Knob.ARC);
 		this.setConstrained(true);
-		this.setRadius(20);
+		this.setRadius(builder.radius);
 		this.setDragDirection(Knob.VERTICAL);
 		this.setCaptionLabel(builder.name);
 		this.setLabelVisible(true);
@@ -26,6 +26,7 @@ public class NscKnob extends Knob {
 		
 		private String name;
 		private float x = 5,  y = 5;
+		private int radius;
 		private ControlP5 cP5;
 		
 		public Builder(String name){
@@ -35,6 +36,11 @@ public class NscKnob extends Knob {
 		public Builder setPosition(float x, float y){
 			this.x = x;
 			this.y = y;
+			return this;
+		}
+		
+		public Builder setRadius(int radius){
+			this.radius = radius;
 			return this;
 		}
 		

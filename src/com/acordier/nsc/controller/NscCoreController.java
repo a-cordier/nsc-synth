@@ -34,11 +34,27 @@ public class NscCoreController {
 	}
 	
 	public void updateLFO(float value){
-		nsc.getLFO().offset.setLastValue(1920+value);
+		nsc.getLFO().offset.setLastValue(2200+value);
 	}
 	
 	public float getResonanceValue(){
 		return nsc.getFilter().resonance.getLastValue();
+	}
+	
+	public void setLfoFrequencyValue(float value){
+		nsc.getLFO().frequency.setLastValue(value);
+	}
+	
+	public float getLfoFrequencyValue(){
+		return nsc.getLFO().frequency.getLastValue();
+	}
+	
+	public void setLfoAmplitudeValue(float value){
+		nsc.getLFO().amplitude.setLastValue(value);
+	}
+	
+	public float getLfoAmplitudeValue(){
+		return nsc.getLFO().amplitude.getLastValue();
 	}
 	
 	public void setAmpValue(float value){
@@ -119,5 +135,39 @@ public class NscCoreController {
 			}
 		}
 		return -1;
+	}
+	
+	public void setDelayFeedBackValue(float value){
+		nsc.getDelay().setDelAmp(value);
+	}
+	
+	public float getDelayFeebackValue(){
+		return nsc.getDelay().delAmp.getLastValue();
+	}
+	
+	public void setDelayTimeValue(float value){
+		nsc.getDelay().setDelTime(value);
+	}
+	
+	public float getDelayTimeValue(){
+		return nsc.getDelay().delTime.getLastValue();
+	}
+	
+	public void setBitCrushResolutionValue(float value){
+		nsc.getBitCrush().bitRes.setLastValue(value);
+	}
+	
+	
+	public float getBitCrushResolutionValue(){
+		return nsc.getBitCrush().bitRes.getLastValue();
+	}
+	
+	public void setBitCrushRateValue(float value){
+		nsc.getBitCrush().bitRate.setLastValue(value);
+	}
+	
+	
+	public float getBitCrushRateValue(){
+		return nsc.getBitCrush().bitRate.getLastValue();
 	}
 }
