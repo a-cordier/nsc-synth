@@ -36,6 +36,10 @@ import static com.acordier.nsc.model.NscConstants.BC_MIN_RES;
 import static com.acordier.nsc.model.NscConstants.BC_MAX_RES;
 import static com.acordier.nsc.model.NscConstants.BC_MIN_RATE;
 import static com.acordier.nsc.model.NscConstants.BC_MAX_RATE;
+import static com.acordier.nsc.model.NscConstants.VCO_GAIN_MIN;
+import static com.acordier.nsc.model.NscConstants.VCO_GAIN_MAX;
+import static com.acordier.nsc.model.NscConstants.VCO_OCT_MIN;
+import static com.acordier.nsc.model.NscConstants.VCO_OCT_MAX;
 
 public class NscViewController {
 
@@ -191,6 +195,55 @@ public class NscViewController {
 			control.activate(coreController.getWaveFormIndexForVCO2());
 		}
 	}
+
+	public void bindVcoGain(Knob control){
+		if(control.getName().matches("^.*1$")){
+			control.addListener(new ControlListener() {
+				@Override
+				public void controlEvent(ControlEvent event) {
+					float value = PApplet.map(event.getValue(), 0, 127, VCO_GAIN_MIN, VCO_GAIN_MAX);
+					coreController.setVco1GainValue(value);
+					NscLogger.logEvent(event, value);
+				}
+			});
+			control.setValue(PApplet.map(coreController.getVco1GainValue(), VCO_GAIN_MIN, VCO_GAIN_MAX, 0, 127));
+		} else {
+			control.addListener(new ControlListener() {
+				@Override
+				public void controlEvent(ControlEvent event) {
+					float value = PApplet.map(event.getValue(), 0, 127, VCO_GAIN_MIN, VCO_GAIN_MAX);
+					coreController.setVco2GainValue(value);
+					NscLogger.logEvent(event, value);
+				}
+			});
+			control.setValue(PApplet.map(coreController.getVco2GainValue(), VCO_GAIN_MIN, VCO_GAIN_MAX, 0, 127));
+		}
+	}
+	
+	public void bindVcoOctave(Knob control){
+		if(control.getName().matches("^.*1$")){
+			control.addListener(new ControlListener() {
+				@Override
+				public void controlEvent(ControlEvent event) {
+					int value = PApplet.ceil(PApplet.map(event.getValue(), 0, 4, VCO_OCT_MIN, VCO_OCT_MAX));
+					coreController.setVco1OctaveValue(value);
+					NscLogger.logEvent(event, value);
+				}
+			});
+			control.setValue(PApplet.map(coreController.getVco1OctValue(), VCO_OCT_MIN, VCO_OCT_MAX, 0, 4));
+		} else {
+			control.addListener(new ControlListener() {
+				@Override
+				public void controlEvent(ControlEvent event) {
+					int value = PApplet.ceil(PApplet.map(event.getValue(), 0, 4, VCO_OCT_MIN, VCO_OCT_MAX));
+					coreController.setVco2OctaveValue(value);
+					NscLogger.logEvent(event, value);
+				}
+			});
+			control.setValue(PApplet.map(coreController.getVco2OctValue(), VCO_OCT_MIN, VCO_OCT_MAX, 0, 4));
+		}
+	}
+	
 	
 	public void bindDelayTime(Knob control){
 		control.addListener(new ControlListener() {

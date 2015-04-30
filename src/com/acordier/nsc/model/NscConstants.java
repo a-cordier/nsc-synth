@@ -12,6 +12,10 @@ public class NscConstants {
 	public final static float LFO_FREQ_MAX = 24.F;
 	public final static float GAIN_MIN = -60.F; // db
 	public final static float GAIN_MAX = 2.F;
+	public final static float VCO_GAIN_MIN = -12.F;
+	public final static float VCO_GAIN_MAX = 2.F;
+	public final static int VCO_OCT_MIN = -1;
+	public final static int VCO_OCT_MAX =  2;
 	public final static float AMP_MIN = 0.F;
 	public final static float AMP_MAX = 1.F;
 	public final static float ATT_MIN = 0.00001F;

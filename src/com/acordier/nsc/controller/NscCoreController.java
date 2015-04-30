@@ -123,6 +123,24 @@ public class NscCoreController {
 		return -1;
 	}
 	
+	public void setVco1GainValue(float value) {
+		nsc.getVco1Gain().setValue(value);
+	}
+	
+	public float getVco1GainValue(){
+		return nsc.getVco1Gain().gain.getLastValue();
+	}
+	
+	public void setVco1OctaveValue(int value){
+		nsc.setVco1Oct(value);
+	}
+	
+	public int getVco1OctValue() {
+		return nsc.getVco2Oct();
+	}
+	
+	
+	
 	public void setWaveFormForVCO2(int i){
 		nsc.getVCO2().setWaveform(WAVE_FORMS[i]);
 	}
@@ -136,6 +154,23 @@ public class NscCoreController {
 		}
 		return -1;
 	}
+	
+	public void setVco2GainValue(float value) {
+		nsc.getVco2Gain().setValue(value);
+	}
+	
+	public float getVco2GainValue(){
+		return nsc.getVco2Gain().gain.getLastValue();
+	}
+	
+	public void setVco2OctaveValue(int value){
+		nsc.setVco2Oct(value);
+	}
+	
+	public int getVco2OctValue() {
+		return nsc.getVco2Oct();
+	}
+	
 	
 	public void setDelayFeedBackValue(float value){
 		nsc.getDelay().setDelAmp(value);
@@ -170,4 +205,6 @@ public class NscCoreController {
 	public float getBitCrushRateValue(){
 		return nsc.getBitCrush().bitRate.getLastValue();
 	}
+	
+
 }

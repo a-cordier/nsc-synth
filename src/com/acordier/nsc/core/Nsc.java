@@ -49,8 +49,8 @@ public class Nsc implements MidiInstrument {
 	Summer summer;
 	
 	/* transpose values */
-	int tOsc_1;
-	int tOsc_2;
+	int vco1Oct;
+	int vco2Oct;
 	
 
 	/** default patching */
@@ -59,8 +59,8 @@ public class Nsc implements MidiInstrument {
 		/* Max amp, Attack, Decay, Sustain, Release */;
 		vco1 = new Oscil(440.F, 0.5F, Waves.SQUARE);
 		vco2 = new Oscil(440.F, 0.5F, Waves.TRIANGLE);
-		tOsc_1 = 0;
-		tOsc_2 = 1;
+		vco1Oct = 0;
+		vco2Oct = 1;
 		adsr = new AdsrX(0.75F, 0.00001F, 0.125F, 0.25F, 0.125F);
 		filter = new MoogFilter(1200.F, 0.5F);
 		sum = new Summer();
@@ -146,8 +146,8 @@ public class Nsc implements MidiInstrument {
 	 * and applying any transformation induced by local settings
 	 */
 	public void setFrequency(Frequency frequency) {
-		vco1.setFrequency(Frequency.ofMidiNote(frequency.asMidiNote() + tOsc_1 * 12));
-		vco2.setFrequency(Frequency.ofMidiNote(frequency.asMidiNote() + tOsc_2 * 12));
+		vco1.setFrequency(Frequency.ofMidiNote(frequency.asMidiNote() + vco1Oct * 12));
+		vco2.setFrequency(Frequency.ofMidiNote(frequency.asMidiNote() + vco2Oct * 12));
 	}
 
 	@Override
@@ -204,5 +204,39 @@ public class Nsc implements MidiInstrument {
 	public void setBitCrush(BitCrush bitCrush) {
 		this.bitCrush = bitCrush;
 	}
+
+	public Gain getVco1Gain() {
+		return vco1Gain;
+	}
+
+	public void setVco1Gain(Gain vco1Gain) {
+		this.vco1Gain = vco1Gain;
+	}
+
+	public Gain getVco2Gain() {
+		return vco2Gain;
+	}
+
+	public void setVco2Gain(Gain vco2Gain) {
+		this.vco2Gain = vco2Gain;
+	}
+
+	public int getVco1Oct() {
+		return vco1Oct;
+	}
+
+	public void setVco1Oct(int vco1Oct) {
+		this.vco1Oct = vco1Oct;
+	}
+
+	public int getVco2Oct() {
+		return vco2Oct;
+	}
+
+	public void setVco2Oct(int vco2Oct) {
+		this.vco2Oct = vco2Oct;
+	}
+	
+	
 	
 }
