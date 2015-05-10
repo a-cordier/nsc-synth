@@ -1,5 +1,9 @@
 package com.acordier.nsc.controller;
 
+import java.util.List;
+
+import javax.sound.midi.MidiDevice;
+
 import processing.core.PApplet;
 
 import com.acordier.nsc.core.Nsc;
@@ -7,6 +11,7 @@ import com.acordier.nsc.logging.NscLogger;
 
 import controlP5.ControlEvent;
 import controlP5.ControlListener;
+import controlP5.DropdownList;
 import controlP5.Group;
 import controlP5.Knob;
 import controlP5.RadioButton;
@@ -291,6 +296,25 @@ public class NscViewController {
 			}
 		});
 		control.setValue(PApplet.map(coreController.getBitCrushRateValue(), BC_MIN_RATE, BC_MAX_RATE, 0, 127));
+	}
+	
+	public void bindMidiInputDeviceSelector(DropdownList control) {
+		List<MidiDevice> devices = coreController.getMidiInputDevices();
+		int i = 0;
+		for (MidiDevice device : devices) {
+			control.addItem(device.getDeviceInfo().getName(), i);
+			i++;
+		}
+		final DropdownList _control = control;
+		control.addListener(new ControlListener() {
+			@Override
+			public void controlEvent(ControlEvent event) {
+				int idx = ((int) event.getValue());
+				String deviceName = _control.getItem(idx).getName();
+				System.out.println(deviceName);
+				coreController.setMidiInputDevice(deviceName);
+			}
+		});
 	}
 
 }

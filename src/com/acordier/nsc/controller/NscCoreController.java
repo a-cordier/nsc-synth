@@ -2,6 +2,12 @@ package com.acordier.nsc.controller;
 
 import static com.acordier.nsc.model.NscConstants.WAVE_FORMS;
 
+import java.util.List;
+
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiUnavailableException;
+
+import com.acordier.mnmd.core.MidiBroker;
 import com.acordier.nsc.core.Nsc;
 
 import ddf.minim.ugens.Waveform;
@@ -206,5 +212,22 @@ public class NscCoreController {
 		return nsc.getBitCrush().bitRate.getLastValue();
 	}
 	
+	public List<MidiDevice> getMidiInputDevices() {
+		return MidiBroker.getMidiInputDevices();
+	}
+	
+	public void setMidiInputDevice(String name) {
+		MidiDevice device = MidiBroker.getMidiInputDevice(name);
+	
+		try {
+			if(!device.isOpen()){
+				device.open();
+			}
+			device.getTransmitter().setReceiver(nsc.getReceiver());
+			System.out.println(device.getDeviceInfo().getDescription());
+		} catch (MidiUnavailableException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

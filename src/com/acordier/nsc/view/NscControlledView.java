@@ -1,11 +1,9 @@
 package com.acordier.nsc.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import processing.core.PApplet;
 
-import com.acordier.mnmd.features.Midinette;
 import com.acordier.nsc.controller.NscViewController;
 import com.acordier.nsc.core.Nsc;
 
@@ -31,6 +29,7 @@ public class NscControlledView extends PApplet {
 	Knob masterGainKnob;
 	Knob delayFbKnob, delayTimeKnob;
 	Knob bcResKnob, bcRateKnob;
+	NscDropdown midiInSelector;
 	Slider ampSlider, attackSlider, decaySlider, sustainSlider, releaseSlider;
 	Canvas adsrCanvas;
 	List<CheckBox> stepSequencer;
@@ -42,11 +41,7 @@ public class NscControlledView extends PApplet {
 		background(255);
 		size(SK_WIDTH, SK_HEIGHT);
 		cP5 = new ControlP5(this);
-		Midinette midinette = new Midinette(nsc);
-		stepSequencer = new ArrayList<CheckBox>(midinette.getStepSequence()
-				.size());
-		midinette.randomize(3);
-		midinette.play(true);
+
 		
 		viewController = new NscViewController(nsc);
 		/* FITLER KNOB VIEW */
@@ -111,6 +106,8 @@ public class NscControlledView extends PApplet {
 		vco2Oct.setNumberOfTickMarks(4).snapToTickMarks(true).hideTickMarks();
 		viewController.bindVcoOctave(vco2Oct);
 		
+		midiInSelector = new NscDropdown.Builder("Midi in").setDimensions(100, 100).setPosition(width-100, 10).build(cP5);
+		viewController.bindMidiInputDeviceSelector(midiInSelector);
 		
 		/* WAVE VISUALISATION VIEW */
 		Canvas canvas = new Canvas() {
