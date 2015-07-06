@@ -22,6 +22,7 @@ import ddf.minim.ugens.Waveform;
 public class NscCoreController {
 	
 	final Nsc nsc;
+	MidiDevice currentMidiInputDevice;
 
 	public NscCoreController(final Nsc nsc){
 		this.nsc = nsc;
@@ -219,8 +220,12 @@ public class NscCoreController {
 	
 	public void setMidiInputDevice(String name) {
 		MidiDevice device = MidiBroker.getMidiInputDevice(name);
-	
 		try {
+			if(currentMidiInputDevice!=null) {
+				//currentMidiInputDevice.getTransmitter().setReceiver(null);
+				currentMidiInputDevice.close();
+			}
+			currentMidiInputDevice = device;
 			if(!device.isOpen()){
 				device.open();
 			}
