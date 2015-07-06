@@ -1,7 +1,5 @@
 package com.acordier.nsc.core;
 
-import javax.sound.sampled.AudioFormat;
-
 import processing.core.PApplet;
 
 import com.acordier.mnmd.core.MidiInstrument;
@@ -18,6 +16,7 @@ import ddf.minim.ugens.Delay;
 import ddf.minim.ugens.Frequency;
 import ddf.minim.ugens.Gain;
 import ddf.minim.ugens.MoogFilter;
+import ddf.minim.ugens.Multiplier;
 import ddf.minim.ugens.Oscil;
 import ddf.minim.ugens.Summer;
 import ddf.minim.ugens.Waves;
@@ -44,10 +43,9 @@ public class Nsc implements MidiInstrument {
 	Damp damp;
 	Delay delay;
 	Gain globalGain;
-
 	SignalSplitter splitter;
 	Summer summer;
-	
+	Multiplier multiplier;
 	/* transpose values */
 	int vco1Oct;
 	int vco2Oct;
@@ -57,48 +55,42 @@ public class Nsc implements MidiInstrument {
 	public Nsc(final PApplet sketch) {
 		this.sketch = sketch;
 		/* Max amp, Attack, Decay, Sustain, Release */;
-		vco1 = new Oscil(440.F, 0.5F, Waves.SQUARE);
+		vco1 = new Oscil(440.F, 0.5F, Waves.SINE);
 		vco2 = new Oscil(440.F, 0.5F, Waves.TRIANGLE);
-		vco1Oct = 0;
+		vco1Oct = 1;
 		vco2Oct = 1;
 		adsr = new AdsrX(0.75F, 0.00001F, 0.125F, 0.25F, 0.125F);
-		filter = new MoogFilter(1200.F, 0.5F);
+		filter = new MoogFilter(2200.F, 0.5F);
 		sum = new Summer();
 		adsrSum = new Summer();
 		minim = new Minim(sketch);
 		out = minim.getLineOut();
 		lfo = new Oscil(0.F, 2200.F, Waves.TRIANGLE);
-		lfo.offset.setLastValue(2000.F); // i don't know what i'm doing here
+		lfo.offset.setLastValue(2200.F); // i don't know what i'm doing here
 		lfo.patch(filter.frequency);
-		//damp = new Damp(0.01F, 0.225F);
-		//damp.patch(filter.frequency);
+		filter.frequency.setLastValue(20000);
 		vco1Gain = new Gain();
 		vco1.patch(vco1Gain);
 		vco1Gain.patch(sum);
 		vco2Gain = new Gain();
 		vco2.patch(vco2Gain);
 		vco2Gain.patch(sum);
-		sum.patch(adsr);
+		multiplier = new Multiplier(6.F);
+		sum.patch(multiplier).patch(adsr);
 		adsr.patch(adsrSum);
 		adsrSum.patch(filter);
-		//filter.patch(modFilter);
-//		  AudioFormat format = new AudioFormat( 44100, // sample rate
-//                  16,    // sample size in bits
-//                  1,     // channels
-//                  true,  // signed
-//                  true   // bigEndian
-//                );
-		delay = new Delay(0.005F, 0.75F, true, true);
-		bitCrush = new BitCrush(8.F, 2048.F); // 2048 min, 
+		delay = new Delay(0.005F, 0.05F, true, true);
+		bitCrush = new BitCrush(16.F, 2048.F); // 2048 min, 
+		bitCrush.bitRate.setLastValue(16384.F);
 		globalGain = new Gain();
+		globalGain.gain.setLastValue(1.75F);
 		Bypass<Delay> delayBypass = new Bypass<Delay>(delay);
 		filter.patch(delayBypass);
+		filter.type = MoogFilter.Type.LP;
 		delayBypass.patch(bitCrush);
 		bitCrush.patch(globalGain);
 		globalGain.patch(out);
-		//delayBypass.activate();
 		receiver = new MidiReceiver(this);
-		
 		
 	}
 

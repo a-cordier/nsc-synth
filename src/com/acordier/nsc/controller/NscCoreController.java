@@ -10,6 +10,7 @@ import javax.sound.midi.MidiUnavailableException;
 import com.acordier.mnmd.core.MidiBroker;
 import com.acordier.nsc.core.Nsc;
 
+import ddf.minim.ugens.MoogFilter.Type;
 import ddf.minim.ugens.Waveform;
 /**
  * ModelController owns an instance of MidiInstrument and is responsible
@@ -40,7 +41,7 @@ public class NscCoreController {
 	}
 	
 	public void updateLFO(float value){
-		nsc.getLFO().offset.setLastValue(2200+value);
+		nsc.getLFO().offset.setLastValue(2200 + value);
 	}
 	
 	public float getResonanceValue(){
@@ -228,6 +229,10 @@ public class NscCoreController {
 		} catch (MidiUnavailableException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setFilterType(Type type) {
+		nsc.getFilter().type = type;
 	}
 
 }

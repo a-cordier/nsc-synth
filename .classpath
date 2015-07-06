@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="data/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/data"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/anton/lib/processing/library/controlP5/library/controlP5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/anton/lib/processing/library/minim.jar"/>
+	<classpathentry kind="lib" path="C:/Users/anton/lib/processing/library/core.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/minimidim"/>
+	<classpathentry kind="lib" path="C:/Users/anton/lib/processing/library/jsminim.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/processing-commons"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
