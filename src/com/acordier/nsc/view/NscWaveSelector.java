@@ -14,8 +14,8 @@ public class NscWaveSelector extends RadioButton {
 	private NscWaveSelector(Builder builder){
 		super(builder.cP5, builder.name);
 		this.setSize(builder.width, builder.height);
-		this.setColorForeground(new Color(120).getRGB());
-		this.setColorActive(new Color(255, 50, 50).getRGB());
+		//this.setColorForeground(new Color(120).getRGB());
+		//this.setColorActive(new Color(255, 50, 50).getRGB());
 		this.setColorLabel(0);
 		this.setItemsPerRow(1);
 		this.setSpacingColumn(50);

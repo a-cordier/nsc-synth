@@ -222,7 +222,6 @@ public class NscCoreController {
 		MidiDevice device = MidiBroker.getMidiInputDevice(name);
 		try {
 			if(currentMidiInputDevice!=null) {
-				//currentMidiInputDevice.getTransmitter().setReceiver(null);
 				currentMidiInputDevice.close();
 			}
 			currentMidiInputDevice = device;

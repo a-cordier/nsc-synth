@@ -47,6 +47,7 @@ import com.acordier.nsc.view.NscToggle;
 import controlP5.Button;
 import controlP5.ControlEvent;
 import controlP5.ControlListener;
+import controlP5.ControlP5;
 import controlP5.Group;
 import controlP5.Knob;
 import controlP5.RadioButton;
@@ -370,7 +371,11 @@ public class NscViewController {
 			public void controlEvent(ControlEvent event) {
 				int idx = ((int) event.getValue());
 				String deviceName = _control.getItem(idx).getName();
-				System.out.println(deviceName);
+				if(previousMidiInputDeviceIdx>=0){
+					_control.getItem(previousMidiInputDeviceIdx).setColorBackground(ControlP5.getColor().getForeground());
+				}
+				_control.getItem(idx).setColorBackground(ControlP5.getColor().getActive());
+				previousMidiInputDeviceIdx = idx;
 				coreController.setMidiInputDevice(deviceName);
 			}
 		});
@@ -380,7 +385,6 @@ public class NscViewController {
 		control.addListener(new ControlListener() {
 			@Override
 			public void controlEvent(ControlEvent event) {
-				System.out.println((int) event.getValue());
 				switch ((int) event.getValue()) {
 				case 0:
 					coreController.setFilterType(Type.LP);
@@ -415,7 +419,6 @@ public class NscViewController {
 		control.addListener(new ControlListener() {
 			@Override
 			public void controlEvent(ControlEvent event) {
-				System.out.println("click");
 				if(((Button)event.getController()).isOn()){
 					settingsFrame = view.addControlFrame("Settings", 300, 300);
 				}else {

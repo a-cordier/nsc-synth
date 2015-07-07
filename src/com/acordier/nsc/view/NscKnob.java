@@ -20,8 +20,8 @@ public class NscKnob extends Knob {
 		this.setColorCaptionLabel(0);
 		this.getColor().setActive(new Color(255, 50, 50).getRGB());
 		this.getValueLabel().hide();
-		// reverse the anti-intuitive default rotation mode
-		setScrollSensitivity(-1); 
+		// reverse the anti-intuitive default rotation mode ?
+; 
 	}
 	
 	public static class Builder {

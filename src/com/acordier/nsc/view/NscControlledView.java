@@ -48,71 +48,76 @@ public class NscControlledView extends PApplet {
 
 		size(SK_WIDTH, SK_HEIGHT);
 		cP5 = new ControlP5(this);
+		
+		cP5.setColorBackground(Colors.color(147,177,198));
+		cP5.setColorForeground(Colors.color(199,208,213));
+		cP5.setColorActive(Colors.color(236, 88, 58)); 
+
 		viewController = new NscViewController(nsc, this);
 		/* FITLER KNOB VIEW */
-		filterKnob = new NscKnob.Builder("Filter").setPosition(5, 5).setRadius(15).build(cP5);
+		filterKnob = new NscKnob.Builder("Filter").setPosition(10, 10).setRadius(15).build(cP5);
 		viewController.bindFilter(filterKnob);
 
 		/* FILTER FREQ LFO FREQ KNOB VIEW */
-		lfoFreqKnob = new NscKnob.Builder("LFO Freq.").setPosition(5, 50).setRadius(15).build(cP5);
+		lfoFreqKnob = new NscKnob.Builder("LFO Freq.").setPosition(10, 60).setRadius(15).build(cP5);
 		viewController.bindLfoFrequency(lfoFreqKnob);
 		
 		
 		/* RES KNOB VIEW */
-		resKnob  = new NscKnob.Builder("Res.").setPosition(50, 5).setRadius(15).build(cP5);
+		resKnob  = new NscKnob.Builder("Res.").setPosition(60, 10).setRadius(15).build(cP5);
 		viewController.bindResonance(resKnob);
 		
 		/* FILTER TYPE KNOB VIEW */
-		filterTypeKnob = new NscKnob.Builder("Filt. type").setPosition(55, 55).setRadius(10).build(cP5);
+		filterTypeKnob = new NscKnob.Builder("Filt. type").setPosition(65, 65).setRadius(10).build(cP5);
 		viewController.bindLfoFrequency(lfoFreqKnob);
 		filterTypeKnob.setRange(0, 2);
 		filterTypeKnob.setNumberOfTickMarks(2).snapToTickMarks(true).hideTickMarks();
 		viewController.bindFilterType(filterTypeKnob);
 		/* DELAY TIME VIEW */
-		delayTimeKnob = new NscKnob.Builder("Del. Time").setPosition(100, 5).setRadius(15).build(cP5);
+		delayTimeKnob = new NscKnob.Builder("Del. Time").setPosition(110, 10).setRadius(15).build(cP5);
 		viewController.bindDelayTime(delayTimeKnob);
 		
 		/* DELAY FEEDBACK VIEW */
-		delayFbKnob = new NscKnob.Builder("Del. FB").setPosition(150, 5).setRadius(15).build(cP5);
+		delayFbKnob = new NscKnob.Builder("Del. FB").setPosition(160, 10).setRadius(15).build(cP5);
 		viewController.bindDelayFeedBack(delayFbKnob);
 		
 		/* DELAY TIME VIEW */
-		bcResKnob = new NscKnob.Builder("Bc Res.").setPosition(100, 50).setRadius(15).build(cP5);
+		bcResKnob = new NscKnob.Builder("Bc Res.").setPosition(110, 60).setRadius(15).build(cP5);
 		viewController.bindBitCrushResolution(bcResKnob);
 		
 		/* BIT CRUSH RESOLUTION VIEW */
-		bcRateKnob = new NscKnob.Builder("Bc Rate. ").setPosition(150, 50).setRadius(15).build(cP5);
+		bcRateKnob = new NscKnob.Builder("Bc Rate. ").setPosition(160, 60).setRadius(15).build(cP5);
 		viewController.bindBitCrushRate(bcRateKnob);
 		
 		/* GAIN ROTARY KNOB VIEW */
-		masterGainKnob = new NscKnob.Builder("Gain").setPosition(200, 5).setRadius(15).build(cP5);
+		masterGainKnob = new NscKnob.Builder("Gain").setPosition(210, 10).setRadius(15).build(cP5);
 		viewController.bindGain(masterGainKnob);
 		
 		/* ADSR VIEW */
-		Group adsrWidget = new NscAdsr.Builder("ADSR").setDimensions(10, 57).setPosition(100,  height-57).build(cP5); 
+		Group adsrWidget = new NscAdsr.Builder("ADSR").setDimensions(10, 57).setPosition(120,  height-57).build(cP5); 
 		viewController.bindAdsr(adsrWidget);
 		/* ADSR VIEW DONE */
 		
 		/* VCO 1 WAVE SELECTOR VIEW */
-		vco1Wave = new NscWaveSelector.Builder("wave_vco_1").setPosition(0, height - 5 * (10 + 1) - 2).setDimensions(10, 10).build(cP5);
+		vco1Wave = new NscWaveSelector.Builder("wave_vco_1").setPosition(20, height - 5 * (10 + 1) - 2).setDimensions(10, 10).build(cP5);
 		viewController.bindWaveSelector(vco1Wave);
 		
-		vco1Gain = new NscKnob.Builder("gain_vco_1").setPosition(0, height - 100).setRadius(10).build(cP5).setCaptionLabel("Presence");
+		vco1Gain = new NscKnob.Builder("gain_vco_1").setPosition(15, height - 100).setRadius(10).build(cP5).setCaptionLabel("Presence");
 		viewController.bindVcoGain(vco1Gain);
 		
-		vco1Oct = new NscKnob.Builder("oct_vco_1").setPosition(0, height - 140).setRadius(10).build(cP5).setCaptionLabel("Oct.");
+		vco1Oct = new NscKnob.Builder("oct_vco_1").setPosition(15, height - 140).setRadius(10).build(cP5).setCaptionLabel("Oct.");
 		vco1Oct.setRange(0, 4);
 		vco1Oct.setNumberOfTickMarks(4).snapToTickMarks(true).hideTickMarks();
 		viewController.bindVcoOctave(vco1Oct);
 		
 		/* VCO 2 WAVE SELECTOR VIEW */
-		vco2Wave = new NscWaveSelector.Builder("VCO_2").setPosition(50, height - 5 * (10 + 1) - 2).setDimensions(10, 10).build(cP5);
+		vco2Wave = new NscWaveSelector.Builder("VCO_2").setPosition(70, height - 5 * (10 + 1) - 2).setDimensions(10, 10).build(cP5);
 		viewController.bindWaveSelector(vco2Wave);
 	
-		vco2Gain = new NscKnob.Builder("gain_vco_2").setPosition(50, height - 100).setRadius(10).build(cP5).setCaptionLabel("Presence");
+		vco2Gain = new NscKnob.Builder("gain_vco_2").setPosition(65, height - 100).setRadius(10).build(cP5).setCaptionLabel("Presence");
 		viewController.bindVcoGain(vco2Gain);
 		
-		vco2Oct = new NscKnob.Builder("oct_vco_2").setPosition(50, height - 140).setRadius(10).build(cP5).setCaptionLabel("Oct.");
+		vco2Oct = new NscKnob.Builder("oct_vco_2").setPosition(65, height - 140).setRadius(10).build(cP5).setCaptionLabel("Oct.");
 		vco2Oct.setRange(0, 4);
 		vco2Oct.setNumberOfTickMarks(4).snapToTickMarks(true).hideTickMarks();
 		viewController.bindVcoOctave(vco2Oct);
@@ -122,13 +127,13 @@ public class NscControlledView extends PApplet {
 		
 		/* WAVE VISUALISATION VIEW */
 		Canvas canvas = new Canvas() {
-			float width = SK_WIDTH-170, height = 57, cX = 170, cY = SK_HEIGHT-height;
+			float width = SK_WIDTH-180, height = 57, cX = 180, cY = SK_HEIGHT-height;
 			@Override
 			public void draw(PApplet arg0) {
 				background(255);
 				noStroke();
 				rect(cX, cY, width, height);
-				stroke(ControlP5.getColor().getBackground());
+				stroke(ControlP5.getColor().getActive());
 				AudioOutput out = nsc.getAudioOut();
 				// draw the waveforms
 				for (int i = 0; i < out.bufferSize() - 1; i++) {
@@ -150,10 +155,13 @@ public class NscControlledView extends PApplet {
 		
 		/* settings window */
 		settingsBtn = new NscToggle.Builder("settings btn")
-				.setPosition(width-110, 10)
+				.setPosition(width-122, 20)
 				.setImages("setting_default.png", "setting_active.png")
 				.build(cP5);
 		viewController.bindSettings(settingsBtn);
+		
+		/* additional layer of pics and|or graphics */
+		new NscSkin.Builder("").build(cP5);
 	}
 	
 	@Override
@@ -208,7 +216,7 @@ public class NscControlledView extends PApplet {
 			Textfield midiOutDevicesLabel = _cP5.addTextfield("Midi out setting label").setPosition(20, 20);
 			midiOutDevicesLabel.setText("Available midi input devices");
 			midiOutDevicesLabel.setColor(255);
-			midiOutDevicesLabel.setColorBackground(Colors.color(174, 209, 64));
+			midiOutDevicesLabel.setColorBackground(ControlP5.getColor().getBackground());
 			
 			midiInDevices = new NscListBox.Builder("Midi in").setDimensions(200, 200).setPosition(20, 40)
 					.build(_cP5);
