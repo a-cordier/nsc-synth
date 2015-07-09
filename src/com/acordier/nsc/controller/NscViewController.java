@@ -59,10 +59,12 @@ public class NscViewController {
 	private ControlFrame settingsFrame;
 	private int previousMidiInputDeviceIdx;
 	private NscControlledView view;
+	private int filterMultiplier;
 	
 	public NscViewController(final Nsc nsc, NscControlledView view) {
 		coreController = new NscCoreController(nsc);
 		this.view = view;
+		this.filterMultiplier = 1000;
 	}
 
 	public void bindFilter(Knob control) {
@@ -71,8 +73,9 @@ public class NscViewController {
 			public void controlEvent(ControlEvent event) {
 				float value = PApplet.map(event.getValue(), 0, 127, FREQ_MIN,
 						FREQ_MAX);
-				coreController.setFrequencyValue(value);
 				coreController.updateLFO(value);
+				coreController.setFrequencyValue(value*filterMultiplier);
+
 				NscLogger.logEvent(event, value);
 			}
 		});
@@ -80,19 +83,7 @@ public class NscViewController {
 				FREQ_MIN, FREQ_MAX, 0, 127));
 	}
 
-	public void bindLfoFrequency(Knob control) {
-		control.addListener(new ControlListener() {
-			@Override
-			public void controlEvent(ControlEvent event) {
-				float value = PApplet.map(event.getValue(), 0, 127,
-						LFO_FREQ_MIN, LFO_FREQ_MAX);
-				coreController.setLfoFrequencyValue(value);
-				NscLogger.logEvent(event, value);
-			}
-		});
-		control.setValue(PApplet.map(coreController.getLfoFrequencyValue(),
-				LFO_FREQ_MIN, LFO_FREQ_MAX, 0, 127));
-	}
+
 
 	public void bindResonance(Knob control) {
 		control.addListener(new ControlListener() {
@@ -108,6 +99,58 @@ public class NscViewController {
 		control.setValue(PApplet.map(coreController.getResonanceValue(),
 				RES_MIN, RES_MAX, 0, 127));
 	}
+	
+	public void bindLfoFrequency(Knob control) {
+		control.addListener(new ControlListener() {
+			@Override
+			public void controlEvent(ControlEvent event) {
+				float value = PApplet.map(event.getValue(), 0, 127,
+						LFO_FREQ_MIN, LFO_FREQ_MAX);
+				coreController.setLfoFrequencyValue(value);
+				NscLogger.logEvent(event, value);
+			}
+		});
+		control.setValue(PApplet.map(coreController.getLfoFrequencyValue(),
+				LFO_FREQ_MIN, LFO_FREQ_MAX, 0, 127));
+	}
+	
+	public void bindFilterType(Knob control) {
+		control.addListener(new ControlListener() {
+			@Override
+			public void controlEvent(ControlEvent event) {
+				switch ((int) event.getValue()) {
+				case 0:
+					coreController.setFilterType(Type.LP);
+					filterMultiplier = 1000;
+					break;
+				case 1:
+					coreController.setFilterType(Type.BP);
+					filterMultiplier = 1000;
+					break;
+				case 2:
+					coreController.setFilterType(Type.HP);
+					filterMultiplier = 1000;
+					break;
+				default:
+					break;
+				}
+			}
+		});
+		switch (coreController.nsc.getFilter().type) {
+		case LP:
+			control.setValue(0);
+			break;
+		case BP:
+			control.setValue(1);
+			break;
+		case HP:
+			control.setValue(2);
+			break;
+		default:
+			break;
+		}
+	}
+	
 
 	public void bindGain(Knob control) {
 		control.addListener(new ControlListener() {
@@ -143,7 +186,7 @@ public class NscViewController {
 
 			@Override
 			public void controlEvent(ControlEvent event) {
-				float value = PApplet.map(event.getValue(), 0, 127, ATT_MIN,
+				float value = PApplet.map(event.getValue(), 0, 127, ATT_MIN*100,
 						ATT_MAX);
 				coreController.setAttackValue(value);
 				NscLogger.logEvent(event, value);
@@ -372,7 +415,7 @@ public class NscViewController {
 				int idx = ((int) event.getValue());
 				String deviceName = _control.getItem(idx).getName();
 				if(previousMidiInputDeviceIdx>=0){
-					_control.getItem(previousMidiInputDeviceIdx).setColorBackground(ControlP5.getColor().getForeground());
+					_control.getItem(previousMidiInputDeviceIdx).setColorBackground(ControlP5.getColor().getBackground());
 				}
 				_control.getItem(idx).setColorBackground(ControlP5.getColor().getActive());
 				previousMidiInputDeviceIdx = idx;
@@ -380,41 +423,8 @@ public class NscViewController {
 			}
 		});
 	}
-	
-	public void bindFilterType(Knob control) {
-		control.addListener(new ControlListener() {
-			@Override
-			public void controlEvent(ControlEvent event) {
-				switch ((int) event.getValue()) {
-				case 0:
-					coreController.setFilterType(Type.LP);
-					break;
-				case 1:
-					coreController.setFilterType(Type.BP);
-					break;
-				case 2:
-					coreController.setFilterType(Type.BP);
-					break;
-				default:
-					break;
-				}
-			}
-		});
-		switch (coreController.nsc.getFilter().type) {
-		case LP:
-			control.setValue(0);
-			break;
-		case BP:
-			control.setValue(1);
-			break;
-		case HP:
-			control.setValue(2);
-			break;
-		default:
-			break;
-		}
-	}
-	
+
+
 	public void bindSettings(NscToggle control){
 		control.addListener(new ControlListener() {
 			@Override
@@ -424,9 +434,13 @@ public class NscViewController {
 				}else {
 					settingsFrame.getFrame().setVisible(false);
 				}
-				
 			}
 		});
+	}
+
+	
+	public int getPreviousMidiInputDeviceIdx() {
+		return previousMidiInputDeviceIdx;
 	}
 
 }

@@ -56,9 +56,9 @@ public class Nsc implements MidiInstrument {
 		this.sketch = sketch;
 		/* Max amp, Attack, Decay, Sustain, Release */;
 		vco1 = new Oscil(440.F, 0.5F, Waves.SINE);
-		vco2 = new Oscil(440.F, 0.5F, Waves.TRIANGLE);
-		vco1Oct = 1;
-		vco2Oct = 1;
+		vco2 = new Oscil(440.F, 0.5F, Waves.SINE);
+		vco1Oct = -1;
+		vco2Oct = -1;
 		adsr = new AdsrX(0.75F, 0.00001F, 0.125F, 0.25F, 0.125F);
 		filter = new MoogFilter(2200.F, 0.5F);
 		sum = new Summer();
@@ -228,7 +228,6 @@ public class Nsc implements MidiInstrument {
 	public void setVco2Oct(int vco2Oct) {
 		this.vco2Oct = vco2Oct;
 	}
-	
 	
 	
 }

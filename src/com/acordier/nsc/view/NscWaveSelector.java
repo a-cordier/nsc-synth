@@ -1,9 +1,5 @@
 package com.acordier.nsc.view;
 
-import java.awt.Color;
-
-import com.acordier.nsc.view.NscKnob.Builder;
-
 import controlP5.ControlP5;
 import controlP5.RadioButton;
 

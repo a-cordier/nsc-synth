@@ -21,6 +21,8 @@ public class NscAdsr extends Group{
 			slider.setWidth(width).setHeight(height);
 			slider.setPosition(builder.x, builder.y);
 			slider.setGroup(this);
+			slider.getCaptionLabel().setVisible(false);
+			slider.getValueLabel().setVisible(false);
 			builder.x += width + 1;
 		}	
 		this.setWidth((width+1) * modules.length);

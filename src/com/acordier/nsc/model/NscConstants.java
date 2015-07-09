@@ -3,7 +3,13 @@ package com.acordier.nsc.model;
 import ddf.minim.ugens.Waveform;
 import ddf.minim.ugens.Waves;
 
+/**
+ * Constants for synth. parameters
+ * @author anton
+ *
+ */
 public class NscConstants {
+	/** Filter frequency min. value */
 	public final static float FREQ_MIN = -20.F; // hz
 	public final static float FREQ_MAX = 10000.F;
 	public final static float RES_MIN = 0.F;
@@ -13,7 +19,7 @@ public class NscConstants {
 	public final static float GAIN_MIN = 0.F; // db
 	public final static float GAIN_MAX = 2.F;
 	public final static float VCO_GAIN_MIN = -12.F;
-	public final static float VCO_GAIN_MAX = 2.F;
+	public final static float VCO_GAIN_MAX = 5.F;
 	public final static int VCO_OCT_MIN = -1;
 	public final static int VCO_OCT_MAX =  2;
 	public final static float AMP_MIN = 0.F;

@@ -1,7 +1,5 @@
 package com.acordier.nsc.view;
 
-import java.awt.Color;
-
 import controlP5.ControlP5;
 import controlP5.Knob;
 
@@ -18,7 +16,6 @@ public class NscKnob extends Knob {
 		this.setCaptionLabel(builder.name);
 		this.setLabelVisible(true);
 		this.setColorCaptionLabel(0);
-		this.getColor().setActive(new Color(255, 50, 50).getRGB());
 		this.getValueLabel().hide();
 		// reverse the anti-intuitive default rotation mode ?
 ; 

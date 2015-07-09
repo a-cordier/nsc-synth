@@ -3,21 +3,20 @@ package com.acordier.nsc.view;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 
 import com.acordier.nsc.controller.NscViewController;
 import com.acordier.nsc.core.Nsc;
 import com.acordier.sequoia.common.Colors;
+import com.acordier.sequoia.common.Fonts;
 
 import controlP5.Canvas;
-import controlP5.CheckBox;
 import controlP5.ControlP5;
 import controlP5.Group;
 import controlP5.Knob;
 import controlP5.RadioButton;
-import controlP5.Slider;
 import controlP5.Textfield;
 import ddf.minim.AudioOutput;
 
@@ -25,22 +24,20 @@ public class NscControlledView extends PApplet {
 
 	private static final long serialVersionUID = 1L;
 	private final int SK_WIDTH = 400, SK_HEIGHT = 300;
-	ControlP5 cP5;
-	Knob filterKnob, resKnob, filterTypeKnob;
-	Knob lfoFreqKnob, lfoAmpKnob;
-	RadioButton vco1Wave, vco2Wave;
-	Knob vco1Gain, vco2Gain;
-	Knob vco1Oct, vco2Oct;
-	Knob masterGainKnob;
-	Knob delayFbKnob, delayTimeKnob;
-	Knob bcResKnob, bcRateKnob;
-	NscToggle settingsBtn;
-	NscListBox midiInDevices;
-	Slider ampSlider, attackSlider, decaySlider, sustainSlider, releaseSlider;
-	Canvas adsrCanvas;
-	List<CheckBox> stepSequencer;
+	private ControlP5 cP5;
+	private Knob filterKnob, resKnob, filterTypeKnob;
+	private Knob lfoFreqKnob;
+	private RadioButton vco1Wave, vco2Wave;
+	private Knob vco1Gain, vco2Gain;
+	private Knob vco1Oct, vco2Oct;
+	private Knob masterGainKnob;
+	private Knob delayFbKnob, delayTimeKnob;
+	private Knob bcResKnob, bcRateKnob;
+	private NscToggle settingsBtn;
+	private PFont font;
+
 	final Nsc nsc = new Nsc(this);
-	NscViewController viewController;
+	private NscViewController viewController;
 	
 	@Override
 	public void setup() {
@@ -48,11 +45,16 @@ public class NscControlledView extends PApplet {
 
 		size(SK_WIDTH, SK_HEIGHT);
 		cP5 = new ControlP5(this);
+//
+//		cP5.setColorBackground(Colors.color(147,177,198));
+//		cP5.setColorForeground(Colors.color(199,208,213));
+//		cP5.setColorActive(Colors.color(236, 88, 58)); 
 		
-		cP5.setColorBackground(Colors.color(147,177,198));
+		cP5.setColorBackground(Colors.color(114, 115, 127));
 		cP5.setColorForeground(Colors.color(199,208,213));
-		cP5.setColorActive(Colors.color(236, 88, 58)); 
-
+		cP5.setColorActive(Colors.color(255, 75, 58)); 
+		background(57,58,64);
+		font = Fonts.loadFont("coolvetica.ttf", 40);
 		viewController = new NscViewController(nsc, this);
 		/* FITLER KNOB VIEW */
 		filterKnob = new NscKnob.Builder("Filter").setPosition(10, 10).setRadius(15).build(cP5);
@@ -94,7 +96,7 @@ public class NscControlledView extends PApplet {
 		viewController.bindGain(masterGainKnob);
 		
 		/* ADSR VIEW */
-		Group adsrWidget = new NscAdsr.Builder("ADSR").setDimensions(10, 57).setPosition(120,  height-57).build(cP5); 
+		Group adsrWidget = new NscAdsr.Builder("ADSR").setDimensions(10, 57).setPosition(120,  height-60).build(cP5); 
 		viewController.bindAdsr(adsrWidget);
 		/* ADSR VIEW DONE */
 		
@@ -121,17 +123,25 @@ public class NscControlledView extends PApplet {
 		vco2Oct.setRange(0, 4);
 		vco2Oct.setNumberOfTickMarks(4).snapToTickMarks(true).hideTickMarks();
 		viewController.bindVcoOctave(vco2Oct);
+
+		/* settings window */
+		settingsBtn = new NscToggle.Builder("settings btn")
+				.setPosition(width-122, 20)
+				.setImages("setting_default.png", "setting_active.png")
+				.build(cP5);
+		viewController.bindSettings(settingsBtn);
+	
 		
-	//	midiInSelector = new NscDropdown.Builder("Midi in").setDimensions(100, 100).setPosition(width-100, 10).build(cP5);
-	//	viewController.bindMidiInputDeviceSelector(midiInSelector);
+
 		
 		/* WAVE VISUALISATION VIEW */
 		Canvas canvas = new Canvas() {
 			float width = SK_WIDTH-180, height = 57, cX = 180, cY = SK_HEIGHT-height;
 			@Override
 			public void draw(PApplet arg0) {
-				background(255);
+				background(g.backgroundColor);
 				noStroke();
+				noFill();
 				rect(cX, cY, width, height);
 				stroke(ControlP5.getColor().getActive());
 				AudioOutput out = nsc.getAudioOut();
@@ -147,21 +157,18 @@ public class NscControlledView extends PApplet {
 					line(x1, y1, x2,
 							y2);
 				}
+				textFont(font);
+				fill(ControlP5.getColor().getActive());
+				text("nsc Synth", 10, 140);
+				textSize(20);
+				text("The not so cheap synthetiser", 131, 155);
 				
 			}
 		};
 		canvas.setMode(Canvas.PRE);
 		cP5.addCanvas(canvas);
 		
-		/* settings window */
-		settingsBtn = new NscToggle.Builder("settings btn")
-				.setPosition(width-122, 20)
-				.setImages("setting_default.png", "setting_active.png")
-				.build(cP5);
-		viewController.bindSettings(settingsBtn);
-		
-		/* additional layer of pics and|or graphics */
-		new NscSkin.Builder("").build(cP5);
+
 	}
 	
 	@Override
@@ -220,14 +227,18 @@ public class NscControlledView extends PApplet {
 			
 			midiInDevices = new NscListBox.Builder("Midi in").setDimensions(200, 200).setPosition(20, 40)
 					.build(_cP5);
-			midiInDevices.setColorBackground(Colors.color(199,208,213));
-			midiInDevices.setColorForeground(Colors.color(236,88,59));
+			midiInDevices.setColorBackground(ControlP5.getColor().getBackground());
+			midiInDevices.setColorForeground(ControlP5.getColor().getActive());
+			//midiInDevices.setColorLabel(0);
+			int selectedIdx = parent.viewController.getPreviousMidiInputDeviceIdx();
 			parent.viewController.bindMidiInputDeviceSelector(midiInDevices);
-			
+			if(selectedIdx > -1){
+				midiInDevices.getItem(selectedIdx).setColorBackground(ControlP5.getColor().getActive());
+			}
 		}
 
 		public void draw() {
-			background(250);
+			background(245);
 		}
 		
 		public ControlP5 control() {
@@ -246,4 +257,10 @@ public class NscControlledView extends PApplet {
 			this.parentFrame = parentFrame;
 		}
 	}
+	
+	/* make the thing runnable */
+	public static void main(String args[]) {
+		PApplet.main(new String[] { "com.acordier.nsc.view.NscControlledView" });
+	}
+	
 }
