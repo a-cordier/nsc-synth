@@ -2,6 +2,8 @@
 
 This is an attempt to build a sound synthetiser with the minim processing library and controlP5
 
+![](http://a-cordier.github.io/nsc/img/nsc.png)
+
 ## dependencies
 
 ### External
